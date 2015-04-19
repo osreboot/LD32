@@ -112,11 +112,11 @@ public class Main extends HvlTemplateInteg2DBasic{
 		if(delta > 0){
 			soundManager.update(this);
 			if(state != GameState.WIN && state != GameState.LOSS) interactionManager.update(this, framework, delta);
+			
 			if(state == GameState.RUNNING){
 				framework.updateRunning(this, delta);
 				introManager.update(this, delta);
-			}
-			else if(state == GameState.WIN) framework.updateFinished(this, delta, true);
+			}else if(state == GameState.WIN) framework.updateFinished(this, delta, true);
 			else if(state == GameState.LOSS) framework.updateFinished(this, delta, false);
 			else framework.updatePaused(this);
 		}
