@@ -1,11 +1,12 @@
-package com.osreboot.corrogatedfidelity.gameobject;
+package com.osreboot.corrugatedfidelity.gameobject;
 
 import java.util.ArrayList;
 
 import org.newdawn.slick.opengl.Texture;
 
-import com.osreboot.corrogatedfidelity.Main;
-import com.osreboot.corrogatedfidelity.StatusManager;
+import com.osreboot.corrugatedfidelity.Main;
+import com.osreboot.corrugatedfidelity.StatusManager;
+import com.osreboot.corrugatedfidelity.SoundManager.SoundEvent;
 
 public class Corporation {
 
@@ -16,6 +17,8 @@ public class Corporation {
 	private Texture texture;
 	private boolean failed = false;
 
+	private long heat = 0;
+	
 	public Corporation(Main main, String nameArg, String abbreviationArg, Texture textureArg){
 		name = nameArg;
 		abbreviation = abbreviationArg;
@@ -30,17 +33,34 @@ public class Corporation {
 	}
 
 	public void update(Main main, StatusManager status, long delta){
+		if(heat > 0) heat = Math.max(0, heat - delta); else if(heat < 0) heat = Math.min(0, heat + delta);
+		
 		if(!failed){
 			price += priceVelocity/delta/10;
 			if(price > priceBoundaryUp && main.getRandom().nextInt((int)(2000/delta) + 1) == 0) priceVelocity = -(float)main.getRandom().nextInt(500)/500f;
-			if(price < priceBoundaryDown && main.getRandom().nextInt((int)(200/delta) + 1) == 0) priceVelocity = (float)main.getRandom().nextInt(500)/500f;
-			if((price < priceBoundaryDown && main.getRandom().nextInt((int)(15000/delta) + 1) == 0) || price < 1){
+			if(price < priceBoundaryDown && main.getRandom().nextInt((int)(200/delta) + 1) == 0) priceVelocity += (float)main.getRandom().nextInt(500)/500f;
+			if(price < priceBoundaryDown && main.getRandom().nextInt((int)(10000/delta) + 1) == 0) priceVelocity += (float)main.getRandom().nextInt(500)/100f;
+			if((price < priceBoundaryDown && main.getRandom().nextInt((int)(20000/delta) + 1) == 0) || price < 1){
 				price = 0;
 				failed = true;
 				status.informFailure(this);
+				main.getSoundManager().playSound(SoundEvent.FAILURE);
+			}
+			if(heat > 1000){
+				if(main.getRandom().nextInt((int)(400/delta) + 1) == 0) priceVelocity += (float)main.getRandom().nextInt(500)/100f;
+			}else if(heat < -1000){
+				if(main.getRandom().nextInt((int)(400/delta) + 1) == 0) priceVelocity -= (float)main.getRandom().nextInt(500)/100f;
 			}
 			if(main.getRandom().nextInt((int)(4000/delta) + 1) == 0) priceVelocity = (float)main.getRandom().nextInt(500)/100f - 2.5f;
 		}
+	}
+	
+	public void addHeat(Main main){
+		heat += main.getRandom().nextInt(500);
+	}
+	
+	public void subtractHeat(Main main){
+		heat -= main.getRandom().nextInt(1000);
 	}
 
 	public boolean isFailed(){

@@ -1,4 +1,4 @@
-package com.osreboot.corrogatedfidelity;
+package com.osreboot.corrugatedfidelity;
 
 import java.util.ArrayList;
 

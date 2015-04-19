@@ -1,8 +1,8 @@
-package com.osreboot.corrogatedfidelity;
+package com.osreboot.corrugatedfidelity;
 
 import org.newdawn.slick.Color;
 
-import com.osreboot.corrogatedfidelity.gameobject.Corporation;
+import com.osreboot.corrugatedfidelity.gameobject.Corporation;
 
 public class StatusManager {
 	
@@ -18,7 +18,7 @@ public class StatusManager {
 	
 	public void informFailure(Corporation corp){
 		word.setRunning(true);
-		word.setWord("update: " + corp.getName() + " has failed!");
+		word.setWord(corp.getName() + " has failed!");
 		word.setColor(new Color(1f, 0.1f, 0.1f));
 	}
 	
