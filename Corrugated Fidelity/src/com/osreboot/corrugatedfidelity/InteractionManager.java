@@ -60,7 +60,7 @@ public class InteractionManager {
 											main.getHeight() - Mouse.getY() > (main.getHeight()/64*15) + (Corporation.corps.indexOf(c)/11*main.getHeight()/8) && //TODO multiply by row
 											main.getHeight() - Mouse.getY() < (main.getHeight()/64*15) + (Corporation.corps.indexOf(c)/11*main.getHeight()/8) + main.getHeight()/8){
 										for(Card card : Card.cards){
-											if(card.isOnGround() && card.getX() > main.getWidth()/4*3){
+											if(card.isOnGround() && (card.getCorporation() == null || card.getCorporation() == c) && card.getX() > main.getWidth()/4*3){
 												card.syncToCorporation(main, c, framework.getObjectiveManager());
 												break;
 											}

@@ -38,8 +38,8 @@ public class ObjectiveManager {
 	}
 
 	public boolean buyShare(Main main, Corporation corp){
-		corp.addHeat(main);
 		if(inventory >= corp.getPrice()){
+			corp.addHeat(main);
 			inventory -= corp.getPrice();
 			main.getSoundManager().playSound(SoundEvent.PICKUP);
 			return true;
